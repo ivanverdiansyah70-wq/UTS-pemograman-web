@@ -1,0 +1,304 @@
+/* =====================================================
+   Snow Festival - style.css
+   Ide utama:
+   - "stage" = kanvas 1440x850 (ukuran desain Figma), skalanya diatur JS.
+   - Setiap layer punya 2 set posisi:
+       --l --t --w --h     = posisi akhir (Snow 2)
+       --sl --st --sw --sh = posisi awal  (Snow 1 / splash)
+   - Kelas .is-splash di stage membuat layer memakai posisi splash.
+     Saat kelas dihapus, transition CSS menganimasikan layer ke
+     posisi Snow 2 (mirip Smart Animate di Figma).
+   ===================================================== */
+
+:root {
+    --white: #ffffff;
+    --ice: #f4f8fc;
+    --pale-blue: #dbe8f5;
+    --mid-blue: #8fb0d0;
+    --slate: #3d5675;
+    --navy: #2b3a52;
+    --move-time: 1.6s;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;           /* tidak ada scrollbar */
+    background: var(--pale-blue);
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--navy);
+}
+
+/* ---------- Stage ---------- */
+.stage {
+    position: absolute;
+    width: 1440px;
+    height: 850px;
+    overflow: hidden;
+    transform-origin: center center;  /* left/top/scale diisi JS */
+}
+
+/* ---------- Layer umum ---------- */
+.layer {
+    position: absolute;
+    left: var(--l);
+    top: var(--t);
+    width: var(--w);
+    height: var(--h);
+    /* animasi perpindahan + ukuran */
+    transition: left var(--move-time) ease-in-out,
+                top var(--move-time) ease-in-out,
+                width var(--move-time) ease-in-out,
+                height var(--move-time) ease-in-out;
+}
+.layer > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Saat splash: pakai posisi Snow 1 */
+.is-splash .layer {
+    left: var(--sl);
+    top: var(--st);
+    width: var(--sw);
+    height: var(--sh);
+}
+
+/* Delay berbeda per kelompok supaya terasa ada kedalaman (parallax).
+   Delay dipakai saat menuju Snow 2 (kelas is-splash dihapus). */
+#main, #land3, #land2, #land1                    { transition-delay: 0s; }
+#tree7, #tree8, #tree6, #tree5m                  { transition-delay: 0.1s; }
+#ftree1, #ftree2, #ftree3, #ftree4, #ftree5      { transition-delay: 0.2s; }
+#navi, #logo, #heading, #button                  { transition-delay: 0.3s; }
+
+/* ---------- Posisi tiap layer: [Snow 2] lalu [Snow 1] ---------- */
+#main   { --l: -125px;  --t: -174px; --w: 1629px; --h: 903px;
+          --sl: 0px;    --st: -406px; --sw: 1998px; --sh: 1108px; }
+#land3  { --l: -1440px; --t: 432px;  --w: 2944px; --h: 431px;
+          --sl: -1586px; --st: -123px; --sw: 5272px; --sh: 771px;
+          transform: scaleX(-1); }            /* dibalik horizontal */
+#tree7  { --l: 1073.25px; --t: 86px;  --w: 184px;    --h: 677px;
+          --sl: 2741px;   --st: -111px; --sw: 263.14px; --sh: 968.07px; }
+#tree8  { --l: 1044.25px; --t: 301px; --w: 135px;    --h: 495px;
+          --sl: 4031px;   --st: 192px; --sw: 192.74px; --sh: 709.04px; }
+#tree6  { --l: 116px;  --t: 281px; --w: 324px;   --h: 530px;
+          --sl: 4716px; --st: 203px; --sw: 462.9px; --sh: 758.63px; }
+#tree5m { --l: 1159px; --t: 269px; --w: 310px;    --h: 507px;
+          --sl: 3297px; --st: 131px; --sw: 442.85px; --sh: 725.78px; }
+#land2  { --l: -399px; --t: 621px; --w: 3176px; --h: 465px;
+          --sl: -378px; --st: 52px; --sw: 5092px; --sh: 745px; }
+#land1  { --l: -1611px; --t: 678px; --w: 2944px; --h: 431px;
+          --sl: -1447px; --st: 340px; --sw: 4212.32px; --sh: 616.01px; }
+#ftree4 { --l: -1137px; --t: -78px; --w: 838.5px; --h: 1375.5px;
+          --sl: 2365px; --st: -343px; --sw: 838.5px; --sh: 1375.5px; }
+#ftree3 { --l: -1292px; --t: 443px; --w: 205px; --h: 754px;
+          --sl: 4993px; --st: 178px; --sw: 205px; --sh: 754px; }
+#ftree2 { --l: -1760px; --t: 228px; --w: 284px; --h: 1045px;
+          --sl: 3675px; --st: -37px; --sw: 284px; --sh: 1045px; }
+#ftree1 { --l: -469px; --t: -2px; --w: 838.5px; --h: 1375.5px;
+          --sl: 6439px; --st: -267px; --sw: 838.5px; --sh: 1375.5px; }
+#ftree5 { --l: 1035px; --t: 228px; --w: 838.5px; --h: 1375.5px;
+          --sl: 2035px; --st: -37px; --sw: 838.5px; --sh: 1375.5px; }
+
+/* Navigasi: di splash berada di luar layar (atas) */
+#navi   { --l: 1082px; --t: 40px; --w: 214px; --h: 56px;
+          --sl: 1082px; --st: -236px; --sw: 214px; --sh: 56px;
+          display: flex; align-items: flex-end; gap: 24px; z-index: 5; }
+
+/* Logo: di splash besar di tengah */
+#logo   { --l: 187px; --t: 17px; --w: 91.08px; --h: 70px;
+          --sl: 528.93px; --st: 238px; --sw: 381.22px; --sh: 293px;
+          z-index: 5; }
+
+/* Heading: di splash di luar layar (bawah) */
+#heading { --l: 416px; --t: 562px; --w: 619.29px; --h: 184.57px;
+           --sl: 416px; --st: 4090px; --sw: 619.29px; --sh: 184.57px;
+           z-index: 5; }
+
+/* Button */
+#button { --l: 534.64px; --t: 712px; --w: 401.5px; --h: 73px;
+          --sl: 534.64px; --st: 4600px; --sw: 401.5px; --sh: 73px;
+          z-index: 5; }
+
+/* ---------- Logo (2 gambar bertumpuk) ---------- */
+.logo-main, .logo-overlay { position: absolute; display: block; max-width: none; }
+#logo .logo-main    { top: -2.86%;  left: -2.2%;   width: 104.4%; height: 105.72%; }
+#logo .logo-overlay { top: -37.14%; left: -28.55%; width: 157.1%; height: 174.28%;
+                      mix-blend-mode: hard-light; }
+
+/* ---------- Heading: gambar SVG sengaja lebih besar dari kotaknya ---------- */
+#heading > img {
+    position: absolute;
+    max-width: none;
+    /* lebar/tinggi = 100% + inset kiri+kanan / atas+bawah */
+    width: 175.5%;
+    height: 350.65%;
+    top: -124.01%;
+    left: -37.75%;
+}
+
+/* ---------- Navigasi ---------- */
+.nav-btn {
+    position: relative;
+    width: 55px; height: 55px;
+    padding: 0; border: 0; background: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+.nav-btn:hover { transform: scale(1.08); filter: brightness(1.08); }
+.nav-btn img { position: absolute; display: block; max-width: none; }
+.nav-circle { top: -14.55%; left: -14.55%; width: 129.1%; height: 129.1%; }
+.nav-menu { width: 56px; height: 56px; }
+.nav-menu img { top: -85.71%; left: -85.71%; width: 271.42%; height: 271.42%; }
+
+.nav-icon { position: absolute; display: block; }
+.nav-shirt .nav-icon { left: 13.75px; top: 15.71px; width: 27.689px; height: 22.589px; }
+.nav-user  .nav-icon { left: 13.75px; top: 14.73px; width: 26.518px; height: 26.518px; }
+.nav-icon .fill { inset: 0; width: 100%; height: 100%; }
+.nav-shirt .overlay { top: -17.71%; left: -14.45%; width: 128.9%; height: 135.42%; mix-blend-mode: hard-light; }
+.nav-user  .overlay { top: -21.84%; left: -9.5%;   width: 119%;   height: 143.68%; mix-blend-mode: hard-light; }
+
+/* ---------- Tombol Start / FAQ (transparan di atas gambar) ---------- */
+.hit {
+    position: absolute;
+    top: 0; height: 100%;
+    width: 50%;
+    padding: 0; border: 0;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 36px;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.hit-start { left: 0; }
+.hit-faq   { left: 50%; }
+.hit:hover, .hit:focus-visible {
+    background: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.9);
+    outline: none;
+}
+
+/* ---------- Pill user (sudah login) ---------- */
+.user-pill {
+    position: absolute;
+    right: 370px;            /* di kiri 3 ikon */
+    top: 48px;
+    height: 40px;
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(6px);
+    color: var(--navy);
+    font-size: 15px;
+    z-index: 5;
+    transition: opacity 0.6s ease 1.6s;
+}
+.user-pill a { color: var(--slate); font-weight: 600; text-decoration: none; }
+.user-pill a:hover { text-decoration: underline; }
+.is-splash .user-pill { opacity: 0; transition: none; }
+
+/* ---------- Popup FAQ / pesan kecil ---------- */
+.faq-popup {
+    position: absolute;
+    left: 50%; top: 560px;
+    transform: translate(-50%, -100%);
+    width: 360px;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--white);
+    box-shadow: 0 8px 30px rgba(120, 160, 200, 0.5);
+    font-size: 15px;
+    z-index: 8;
+}
+.faq-popup[hidden] { display: none; }
+.faq-popup p { margin: 8px 0; }
+.faq-popup button {
+    margin-top: 6px; padding: 6px 18px;
+    border: 1px solid var(--mid-blue); border-radius: 999px;
+    background: var(--ice); color: var(--navy); cursor: pointer;
+}
+
+/* ---------- Overlay login (Snow 3) ---------- */
+.login-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200, 225, 250, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s;
+}
+.login-overlay.is-open { opacity: 1; visibility: visible; }
+
+.login-panel {
+    position: relative;
+    width: 400px;
+    padding: 28px 36px 34px;
+    text-align: center;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 48px rgba(110, 160, 215, 0.55), inset 0 0 24px rgba(255, 255, 255, 0.6);
+}
+.login-panel h2 { margin: 6px 0 16px; font-size: 28px; letter-spacing: 2px; color: var(--navy); }
+
+.login-logo { position: relative; width: 91px; height: 70px; margin: 0 auto; }
+.login-logo .logo-main    { top: -2.86%; left: -2.2%; width: 104.4%; height: 105.72%; }
+.login-logo .logo-overlay { top: -37.14%; left: -28.55%; width: 157.1%; height: 174.28%; mix-blend-mode: hard-light; }
+.login-logo img { max-width: none; }
+
+.login-close {
+    position: absolute; top: 12px; right: 16px;
+    width: 34px; height: 34px;
+    border: 0; background: none;
+    font-size: 28px; line-height: 1;
+    color: var(--slate); cursor: pointer;
+}
+.login-close:hover { color: var(--navy); }
+
+.login-panel form { display: flex; flex-direction: column; gap: 14px; }
+.login-panel input {
+    width: 100%;
+    padding: 13px 20px;
+    border: 1.5px solid var(--pale-blue);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--navy);
+    font-size: 16px;
+    outline: none;
+}
+.login-panel input:focus { border-color: var(--mid-blue); box-shadow: 0 0 10px rgba(143, 176, 208, 0.7); }
+
+/* Tombol submit meniru gaya button.png: pil putih + teks navy + ✦ */
+.login-submit {
+    margin-top: 6px;
+    padding: 13px 20px;
+    border: 2px solid var(--white);
+    border-radius: 999px;
+    background: linear-gradient(#ffffff, var(--ice));
+    color: var(--navy);
+    font-size: 18px; font-weight: 600; letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(120, 160, 205, 0.55);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.login-submit:hover { transform: scale(1.03); box-shadow: 0 0 20px rgba(255, 255, 255, 0.95), 0 4px 16px rgba(120, 160, 205, 0.7); }
+
+.login-error {
+    margin: 0 0 12px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #e3a6a6;
+    color: #a03a3a;
+    font-size: 14px;
+}
+
+/* ---------- Hormati preferensi "kurangi gerakan" ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .layer, .login-overlay, .user-pill { transition: none !important; }
+}
