@@ -9,7 +9,7 @@ dari akun GitHub sendiri supaya commit tercatat atas nama masing-masing.
 
 | Anggota | Bagian | File yang di-commit |
 |---|---|---|
-| Ivan | Frontend (slicing Figma) | `index.php`, `assets/`, `PANDUAN-UPLOAD.md` (sudah) |
+| Angga| Frontend (slicing Figma) | `index.php`, `assets/`, `PANDUAN-UPLOAD.md` (sudah) |
 | Anggota 2 | Backend PHP | `config/database.php`, `auth/login.php`, `auth/logout.php` |
 | Anggota 3 | Database & Dokumentasi | `database/uts_web.sql`, `README.md`, laporan |
 
