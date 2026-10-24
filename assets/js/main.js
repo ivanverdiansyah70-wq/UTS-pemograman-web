@@ -69,8 +69,6 @@
     }
 
     // ---------- 4. Tombol Start, FAQ, dan ikon user ----------
-    var popupTimer = null;
-
     function showPopupMessage(html) {
         faqPopup.innerHTML = html + '<button type="button" id="faq-close">Tutup</button>';
         faqPopup.hidden = false;
@@ -81,9 +79,7 @@
 
     document.getElementById('btn-start').addEventListener('click', function () {
         if (loggedIn) {
-            showPopupMessage('<p>Kamu sudah login.</p>');
-            clearTimeout(popupTimer);
-            popupTimer = setTimeout(function () { faqPopup.hidden = true; }, 2500);
+            window.location.href = 'dashboard.php';
         } else {
             openLogin();
         }
@@ -99,7 +95,9 @@
     });
 
     document.getElementById('open-user').addEventListener('click', function () {
-        if (!loggedIn) { openLogin(); }
+        // Sudah login -> buka dashboard; belum -> buka form login
+        if (loggedIn) { window.location.href = 'dashboard.php'; }
+        else { openLogin(); }
     });
 
     // Tombol Tutup di popup bawaan HTML

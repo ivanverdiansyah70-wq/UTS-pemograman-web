@@ -36,7 +36,7 @@ if ($user && password_verify($password, $user['password'])) {
         'username' => $user['username'],
     ];
     unset($_SESSION['login_error']);
-    header('Location: ../index.php');
+    header('Location: ../dashboard.php');   // login berhasil -> panel dashboard
     exit;
 }
 

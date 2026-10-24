@@ -71,6 +71,7 @@ function e($text) {
     <!-- Tampil hanya kalau sudah login -->
     <div class="user-pill" id="user-pill">
         <span>Halo, <?= e($username) ?></span>
+        <a href="dashboard.php">Dashboard</a>
         <a href="auth/logout.php">Logout</a>
     </div>
     <?php endif; ?>
